@@ -1,0 +1,13 @@
+{basics}
+{...}
+zero = ignore
+succNat = n -> f -> f `comp n f
+addNat = rev succNat
+mulNat = a -> b -> f -> a `id b f
+expNat = rev
+shiftInc _= t -> sndTup t `tup succNat `id sndTup t
+decNat = fstTup `comp nRev 2 shiftInc (tup zero zero)
+minusNat = rev decNat
+divNat = ...
+modNat = ...
+=<>...
