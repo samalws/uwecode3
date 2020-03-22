@@ -1,7 +1,6 @@
 {basics}
 {bool}
 {tup}
-{...}
 zero = ignore
 succNat = n -> f -> f `comp n f
 addNat = rev succNat
