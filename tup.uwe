@@ -1,0 +1,5 @@
+{basics}
+{...}
+tup = nRev 2
+fstTup = rev const
+sndTup = rev ignore
