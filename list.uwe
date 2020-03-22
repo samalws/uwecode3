@@ -1,9 +1,13 @@
 {basics}
 {nat}
+{maybe}
 {...}
 emptyList = ignore
-consList = h -> r -> f -> f h `comp f r
-reduceList = nRev 2
+consList = h -> r -> f -> f h r
+reduceList = f -> d -> fix self -> nRev 2 (h -> f h `comp self) d
 mapList = f -> reduceList (consList `comp f) emptyList
 filterList = f -> reduceList (h -> r -> f h (consList h r) r) emptyList
-lenList = reduceList succNat 0
+lenList = reduceList succNat zero
+headList = nRev 2 (just `(nComp 2) const) none
+tailList = nRev 2 (just `(nComp 2) ignore) none
+getList = n -> zero `rev fix self -> currIndex -> l -> eqNat n currIndex (headList l) `id tailList l `bindMaybe self `id succNat currIndex
