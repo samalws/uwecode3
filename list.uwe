@@ -1,0 +1,9 @@
+{basics}
+{nat}
+{...}
+emptyList = ignore
+consList = h -> r -> f -> f h `comp f r
+reduceList = nRev 2
+mapList = f -> reduceList (consList `comp f) emptyList
+filterList = f -> reduceList (h -> r -> f h (consList h r) r) emptyList
+lenList = reduceList succNat 0
