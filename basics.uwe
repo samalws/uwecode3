@@ -1,0 +1,7 @@
+id = a -> a
+const = a -> b -> a
+ignore = a -> id
+rev = a -> b -> b a
+comp = a -> b -> c -> a `id b c
+selfCall = a -> a a
+fix = a -> selfCall b -> a `id selfCall b
