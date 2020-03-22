@@ -1,0 +1,7 @@
+{basics}
+{bool}
+{...}
+just = a -> f -> g -> f a
+none = ignore
+isJust = nRev 2 (const true) false
+bindMaybe = a -> b -> a b none
