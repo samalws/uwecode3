@@ -1,6 +1,7 @@
 {basics}
 {bool}
-{...}
+{nFuncs}
+2 _= f -> x -> f (f x)
 left =  a -> f -> g -> f a
 right = a -> f -> g -> g a
 isLeft = nRev 2 (const true) (const false)
