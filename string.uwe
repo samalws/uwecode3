@@ -1,0 +1,9 @@
+{basics}
+{bool}
+{folded}
+{nFunc}
+2 _= f -> x -> f (f x)
+[char: folded of 8 bools]
+eqChar = eqFolded eqBool
+[string: folded of chars]
+eqString = eqFolded eqChar
