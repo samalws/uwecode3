@@ -1,5 +1,6 @@
 {basics}
-{...}
+{nFuncs}
+2 _= f -> x -> f (f x)
 tup = nRev 2
 fstTup = rev const
 sndTup = rev ignore
