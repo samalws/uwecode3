@@ -10,3 +10,4 @@ xorBool = a -> b -> a (not b) b
 nandBool = nComp 2 notBool andBool
 norBool = nComp 2 notBool orBool
 xnorBool = nComp 2 notBool xorBool
+eqBool = xnorBool
