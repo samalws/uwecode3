@@ -1,7 +1,8 @@
 {basics}
 {nat}
 {maybe}
-{...}
+{nFuncs}
+2 _= f -> x -> f (f x)
 emptyList = ignore
 consList = h -> r -> f -> f h r
 reduceList = f -> d -> fix self -> nRev 2 (h -> f h `comp self) d
