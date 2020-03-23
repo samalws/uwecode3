@@ -1,0 +1,10 @@
+{basics}
+{maybe}
+{either}
+{tup}
+{nFuncs}
+2 _= f -> x -> f (f x)
+inp = left `comp left
+otp = left `(nComp 2) right `(nComp 2) tup
+fork = right `comp just
+stop = right none
