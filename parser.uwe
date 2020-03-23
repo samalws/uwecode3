@@ -1,0 +1,11 @@
+{basics}
+{either}
+{tup}
+{string}
+0 _= ignore
+[parser: string -> either (nat,string)(error char number,error msg) string(remaining after done parsing)]
+bindParsers = a -> b -> s -> a s `bindEither b
+choiceParser = a -> b -> s -> a s (errA -> b s (errB -> chooseGrNat (fstTup errA) (fstTup errB) errA errB (fstTup errA `tup sndTup errA `concatList " OR " `concatList sndTup errB)) right) right
+emptyStringParseFail = left `id 0 `tup "Unexpected end of parse"
+parserExpectingNonEnd = f -> s -> s f emptyStringParseFail
+charParser = c -> parserExpectingNonEnd h -> r -> eqChar c h r (left `id 0 `tup "Expected character " `concatList singleList h `concatList ", expected " `concatList singleList c)
