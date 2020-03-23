@@ -15,4 +15,4 @@ lenFolded = nRev 2 succNat 0
 headFolded = nRev 2 (const `comp just) none
 tailFolded = fstTup `comp nRev 2 (h -> just `comp consFolded h `comp nRev 2 (t -> fstTup t `consFolded sndTup t) emptyList) none
 getFromBackFolded _= n -> nRev 2 id (const none) `comp nRev 2 (h -> bindEither n2 -> eqNat n n2 (right h) (left `id succNat n2)) `id right 0
-[TODO check above, reverseFolded, getFolded, sortFolded?, mergeFolded]
+[TODO check above, reverseFolded, getFolded, sortFolded?, mergeFolded, concatFolded]
