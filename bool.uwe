@@ -1,5 +1,6 @@
 {basics}
-{...}
+{nFuncs}
+2 _= f -> x -> f (f x)
 true = const
 false = ignore
 notBool = nRev 2 false true
