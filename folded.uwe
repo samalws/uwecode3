@@ -3,7 +3,7 @@
 {nFuncs}
 0 _= const
 2 _= f -> x -> f (f x)
-[folded t: (t -> a -> a) -> a -> a]
+[Folded t: (t -> a -> a) -> a -> a]
 emptyFolded = ignore
 consFolded = h -> r -> f -> g -> f h `id f r g
 mapFolded = f -> nRev 2 (consFolded `comp f) emptyFolded
