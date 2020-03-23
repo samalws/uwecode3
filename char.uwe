@@ -1,7 +1,0 @@
-{basics}
-{bool}
-{foldable}
-{nFunc}
-2 _= f -> x -> f (f x)
-[char: folded with 8 bools]
-eqChar = nRev 2 andBool true `(nComp 2) mergeFoldable eqBool
