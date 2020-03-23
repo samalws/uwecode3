@@ -19,3 +19,4 @@ geqNat = a -> b -> leqNat b a
 eqNat = a -> b -> leqNat a b `andBool geqNat a b
 ltNat = a -> b -> leqNat a b `andBool notBool `id eqNat a b
 gtNat = a -> b -> geqNat a b `andBool notBool `id eqNat a b
+chooseGrNat = a -> b -> aGr -> bGr -> eq -> eqNat a b eq `id leqNat a b bGr aGr
