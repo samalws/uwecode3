@@ -1,0 +1,23 @@
+{basics}
+{tup}
+{either}
+{nat}
+{nFuncs}
+0 _= const
+2 _= f -> x -> f (f x)
+[List t: (t -> a -> a) -> a -> a]
+emptyList = ignore
+consList = h -> r -> f -> g -> f h `id f r g
+List->Scott = nRev 2 (h -> r -> f -> const `id f h r) emptyList
+Scott->List = nRev 2 consList emptyList
+singleList = rev emptyList `comp consList
+mapList = f -> nRev 2 (consList `comp f) emptyList
+filterList = f -> nRev 2 (h -> r -> f h (h `consList r) r) emptyList
+lenList = nRev 2 succNat 0
+headList = nRev 2 (const `comp just) none
+tailList = Scott->List `comp nRev 2 (just `(nComp 2) ignore) none `comp List->Scott
+getList = fix self -> n -> l -> isZeroNat n (headList l) `id self (decNat n) (tailList l)
+concatList = rev consList
+mergeList = f -> a -> b -> (fix self -> a -> b -> a (ha -> ra -> b (hb -> rb -> f ha hb `consList self ra rb) emptyList) emptyList) (List->Scott a) (List->Scott b)
+eqList = f -> nRev 2 andBool true `(nComp 2) mergeFolded f
+[TODO reverse, sort]
