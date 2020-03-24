@@ -15,4 +15,4 @@ decVars = fix self -> nRev 4 (lambda `comp self) (var `comp decNat) (x -> y -> c
 callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b)
 simplifyAst = nRev 4 lambda var callAst str
 simplifyFullyAst = fix self -> nRev 4 lambda var (self `(nComp 2) callAst) str
-Ast->F = emptyList `rev fix self -> context -> nRev 4 (a -> x -> self (x `consList context) a) (n -> getList n context id id [janky way of doing fromJust: context index n should never not exist]) (x -> y -> (self x) (self y)) id
+Ast->F = id `rev fix self -> context -> nRev 4 (a -> x -> self (x `tup context) a) (n -> getTup n context) (x -> y -> (self context x) (self context y)) id
