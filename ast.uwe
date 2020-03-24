@@ -1,0 +1,17 @@
+{basics}
+{io}
+{nat}
+{nFuncs}
+0 _= ignore
+2 _= f -> x -> f (f x)
+4 _= f -> x -> f (f (f (f x)))
+[ast = lambda ast | var nat | called ast ast | str string]
+lambda = x      -> a -> b -> c -> d -> a x
+var    = n      -> a -> b -> c -> d -> b n
+called = x -> y -> a -> b -> c -> d -> c x y
+str    = s      -> a -> b -> c -> d -> s d
+replace = replacement -> fix self -> n -> nRev 4 (x -> lambda `id self (succNat n) x) (n2 -> eqNat n2 n replacement `id var n2) (x -> y -> called (self n x) (self n y)) str
+decVars = fix self -> nRev 4 (lambda `comp self) (var `comp decNat) (x -> y -> called (self x) (self y)) str
+callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b)
+simplifyAst = nRev 4 lambda var callAst str
+simplifyFullyAst = fix self -> nRev 4 lambda var (self `(nComp 2) callAst) str
