@@ -3,8 +3,9 @@
 {either}
 {tup}
 {nFuncs}
+[io = inp string->io | otp nat io | fork io io | stop
 2 _= f -> x -> f (f x)
-inp = left `comp left
-otp = left `(nComp 2) right `(nComp 2) tup
-fork = right `comp just
-stop = right none
+inp = f       -> a -> b -> c -> d -> a f
+otp = n -> r  -> a -> b -> c -> d -> b n r
+fork = x -> y -> a -> b -> c -> d -> c x y
+stop =           a -> b -> c -> d -> d
