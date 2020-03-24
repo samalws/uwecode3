@@ -8,3 +8,4 @@ isLeft = nRev 2 (const true) (const false)
 isRight = not `comp isLeft
 bindEither = a -> b -> a left b
 switchEither = a -> f -> g -> a g f
+eqEither = eql -> eqr -> a -> b -> a (x -> b eql false) (y -> b false eqr)
