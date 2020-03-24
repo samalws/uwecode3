@@ -4,3 +4,4 @@
 tup = nRev 2
 fstTup = rev const
 sndTup = rev ignore
+getTup = fstTup `comp nRev 2 sndTup
