@@ -5,7 +5,7 @@
 {nFuncs}
 [io = inp string->io | otp nat io | fork io io | stop
 2 _= f -> x -> f (f x)
-inp = f       -> a -> b -> c -> d -> a f
-otp = n -> r  -> a -> b -> c -> d -> b n r
+inp  = f      -> a -> b -> c -> d -> a f
+otp  = n -> r -> a -> b -> c -> d -> b n r
 fork = x -> y -> a -> b -> c -> d -> c x y
 stop =           a -> b -> c -> d -> d
