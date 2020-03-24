@@ -3,9 +3,6 @@
 {nFunc}
 0 _= ignore
 2 _= f -> x -> f (f x)
-tup _= nRev 2
-fstTup _= rev const
-sndTup _= rev ignore
 succNat = n -> f -> f `comp n f
 addNat = rev succNat
 mulNat = a -> b -> f -> a `id b f
