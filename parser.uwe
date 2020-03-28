@@ -23,3 +23,4 @@ manyParser = p -> (fix self -> (p `bindParser result -> s -> self s `mapParser c
 many1Parser = p -> (fix self -> (p `bindParser result -> s -> self s `mapParser consList result) `choiceParser p `mapParser singleList) `mapParser reverseList
 digitParser _= sndTup `id "0123456789" (digit -> rev n -> currentParser -> succNat n `tup currentParser `choiceParser charParser digit `mapParser const n) (0 `tup failParser)
 natParser = many1Parser digitParser `mapParser sndTup `comp nRev 2 (digit -> rev mult -> n -> mulNat 10 mult `tup n `addNat mult `mulNat digit) (1 `tup 0)
+whitespaceParser = many1Parser `id " \t\n" choiceParser failParser
