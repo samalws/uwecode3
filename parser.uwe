@@ -6,6 +6,7 @@
 {nFuncs}
 0 _= ignore
 2 _= f -> x -> f (f x)
+10 _= addNat 2 `id mulNat 2 `id mulNat 2 2
 [parser a: string -> either (nat,string)(error char number,error msg) (a,string)(thing parsed, remaining after done parsing)]
 bindParser = p -> f -> s -> p s `bindEither rev r -> s2 -> f s2 (rev charNum -> errMsg -> left `id (charNum `addNat lenList s `minusNat lenList s2) `tup errMsg) right
 appendParser = p1 -> p2 -> p1 `bindParsers p2 `comp sndTup
@@ -20,4 +21,5 @@ charParser = c -> parserExpectingNonEnd h -> r -> eqChar c h (c `tup r) (left `i
 strParser = s -> s (c -> charParser c `appendParser) emptyParser `mapParser const s
 manyParser = p -> (fix self -> (p `bindParser result -> s -> self s `mapParser consList result) `choiceParser emptyParser emptyList) `mapParser reverseList
 many1Parser = p -> (fix self -> (p `bindParser result -> s -> self s `mapParser consList result) `choiceParser p `mapParser singleList) `mapParser reverseList
-[digitParser _= reduceList choiceParser failParser `id mapList charParser "0123456789"]
+digitParser _= sndTup `id "0123456789" (digit -> rev n -> currentParser -> succNat n `tup currentParser `choiceParser charParser digit `mapParser const n) (0 `tup failParser)
+natParser = many1Parser digitParser `mapParser sndTup `comp nRev 2 (digit -> rev mult -> n -> mulNat 10 mult `tup n `addNat mult `mulNat digit) (1 `tup 0)
