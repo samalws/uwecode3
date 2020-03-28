@@ -1,9 +1,10 @@
 {basics}
 {bool}
-{folded}
+{list}
 {nFunc}
 2 _= f -> x -> f (f x)
-[char: folded of 8 bools]
-eqChar = eqFolded eqBool
-[string: folded of chars]
-eqString = eqFolded eqChar
+[char: list of 8 bools]
+eqChar = eqList eqBool
+[string: list of chars]
+eqString = eqList eqChar
+String->Char = (nRev 2 id id) `comp headList
