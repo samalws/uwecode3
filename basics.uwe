@@ -7,3 +7,4 @@ const = nConst 1
 ignore = nIgnore 1
 selfCall = a -> a a
 fix = a -> selfCall b -> a `id selfCall b
+selfRef = rev `comp fix `comp comp rev
