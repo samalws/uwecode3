@@ -8,7 +8,8 @@
 2 _= f -> x -> f (f x)
 10 _= addNat 2 `id mulNat 2 `id mulNat 2 2
 [parser a: string -> either (nat,string)(error char number,error msg) (a,string)(thing parsed, remaining after done parsing)]
-bindParser = p -> f -> s -> p s `bindEither rev r -> s2 -> f s2 (rev charNum -> errMsg -> left `id (charNum `addNat lenList s `minusNat lenList s2) `tup errMsg) right
+[TODO what the hell are the next 2 lines]
+bindParser = p -> f -> s -> p s `bindEither rev r -> s2 -> f r s2 (rev charNum -> errMsg -> left `id (charNum `addNat lenList s `minusNat lenList s2) `tup errMsg) right
 appendParser = p1 -> p2 -> p1 `bindParsers p2 `comp sndTup
 choiceParser = p1 -> p2 -> s -> p1 s (rev errLoc1 -> err1 -> p2 s (rev errLoc2 -> err2 -> chooseGrNat errLoc1 errLoc2 (errLoc1 `tup err1) (errLoc2 `tup err2) (errLoc1 `tup err1 `concatList " OR " `concatList err2)) right) right
 mapParserFailable = p -> f -> s -> p s `bindEither rev parsed -> remaining -> f parsed `bindEither fParsed -> fParsed `tup remaining
