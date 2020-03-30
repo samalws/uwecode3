@@ -1,0 +1,12 @@
+{basics}
+{either}
+{list}
+{parser}
+{expressionParser}
+[declaration = either string(import) (exprDecl bool(public or private?) `tup ast)]
+[code = list of declarations]
+importParser = (charParser (Char->String "{") `appendParserIgnoringL wordParser `appendParserIgnoringR charParser (Char->String "}")) `mapParser left
+exprDeclParser = (wordParser `spaceSeparatedParser charParser (Char->String "=") `spaceSeparatedParser standardExpressionParser) `mapParser rev a -> rev b -> c -> right `id a `tup c
+standardDeclarationParser = importParser `choiceParser exprDeclParser
+codeParserWithoutWhitespaceBeforeAndAfter _= fix self -> standardDeclarationParser `bindParser d -> (appendParserIgnoringL whitespaceParser self `mapParser consList d) `choiceParser emptyParser `id singletonList d [TODO this seems to be a common ish pattern, maybe make a function for it]
+standardCodeParser = (whitespaceParser `choiceParser emptyParser id) `appendIgnoringL codeParserWithoutWhitespaceBeforeAndAfter `appendIgnoringR (whitespaceParser `choiceParser emptyParser id) [TODO optionalParser would also be very cool]
