@@ -5,6 +5,7 @@
 {enclosedParser}
 {ast}
 {string}
+0 _= ignore
 2 _= f -> x -> f (f x)
 wordParser = (many1Parser `id "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*_+-=|;:'<>?,./" (choiceParser `comp charParser) failParser) `bindParser s -> eqString s "=" (const `id 0 `tup "Unexpected \"=\"") `id emptyParser s
 commentParser = charParser (String->Char "[") `appendParser manyParser (nonCharParser "]") `appendParser charParser (String->Char "]")
