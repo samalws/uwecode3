@@ -7,7 +7,7 @@
 0 _= ignore
 2 _= f -> x -> f (f x)
 10 _= addNat 2 `id mulNat 2 `id mulNat 2 2
-[parser a: string -> either (nat,string)(error char number,error msg) (a,string)(thing parsed, remaining after done parsing)]
+[parser a: string -> either (nat,string)(error char number,error msg) (a,string)(thing parsed, remaining after done parsing)] [TODO WHAT ABOUT EOF]
 [TODO what the hell are the next 2 lines]
 bindParser = p -> f -> s -> p s `bindEither rev r -> s2 -> f r s2 (rev charNum -> errMsg -> left `id (charNum `addNat lenList s `minusNat lenList s2) `tup errMsg) right
 appendParser = p1 -> p2 -> p1 `bindParsers p2 `comp sndTup
@@ -18,7 +18,7 @@ appendIgnoringLParser = p1 -> p2 -> p1 `bindParsers const p2
 appendIgnoringRParser = p1 -> p2 -> p1 `bindParsers v -> p2 `mapParser const v
 emptyParser = v -> s -> right `id v `tup s
 failParser = const `id left `id 0 `tup ""
-emptyStringParseErr = left `id 0 `tup "Unexpected end of parse"
+emptyStringParseErr = left `id 0 `tup "Unexpected end of parse" [TODO u sure about this one]
 expectingNonEndParser = f -> s -> s f emptyStringParseFail
 charSatisfiesParser = f -> e -> expectingNonEndParser h -> r -> f h (right `id c `tup r) (left e)
 charParser = c -> charSatisfiesParser (eqChar c) (0 `tup "Expected character " `concatList singleList h `concatList ", expected " `concatList singleList c)
