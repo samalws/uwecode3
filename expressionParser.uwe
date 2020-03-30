@@ -6,7 +6,7 @@
 {ast}
 {string}
 2 _= f -> x -> f (f x)
-wordParser = many1Parser `id "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*_+-=|;:'<>?,./" (choiceParser `comp charParser) failParser
+wordParser = (many1Parser `id "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*_+-=|;:'<>?,./" (choiceParser `comp charParser) failParser) `bindParser s -> eqString s "=" (const `id 0 `tup "Unexpected \"=\"") `id emptyParser s
 commentParser = charParser (String->Char "[") `appendParser manyParser (nonCharParser "]") `appendParser charParser (String->Char "]")
 spaceSeparatedParser = p1 -> p2 -> p1 `appendParser (many1Parser (spaceParser `appendParser commentParser) `appendParser spaceParser) `appendIgnoringLParser p2
 funcParser = expParser -> wordParser `spaceSeparatedParser stringParser "->" `spaceSeparatedParser expParser
