@@ -6,6 +6,7 @@
 2 _= f -> x -> f (f x)
 4 _= f -> x -> f (f (f (f x)))
 [ast = lambda ast | var nat | called ast ast | str string]
+[TODO varAST]
 lambda = x      -> a -> b -> c -> d -> a x
 var    = n      -> a -> b -> c -> d -> b n
 called = x -> y -> a -> b -> c -> d -> c x y
