@@ -1,5 +1,6 @@
 {basics}
 {tup}
+{list}
 {parser}
 {enclosedParser}
 {ast}
