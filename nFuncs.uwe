@@ -8,6 +8,6 @@ nComp = nFuncMaker next -> f -> g -> x -> next f `id g x
 [n -> x -> y1 -> ... -> yn -> x]
 nConst = nFuncMaker next -> x -> y -> next x
 [n -> x1 -> ... -> xn -> y -> y]
-nIgnore = nFuncMaker next -> x -> next
+nIgnore = nFuncMaker ignore
 [n -> x1 -> ... -> xn -> f -> f x1 ... xn]
 nRev = sndTup `comp nRev2 (rev m -> next -> succNat m `tup x -> rev x `(nComp m) next) (id [= 1] `tup id)
