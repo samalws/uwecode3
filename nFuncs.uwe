@@ -1,10 +1,13 @@
-nFuncMaker _= f -> n -> n f (x -> x)
-[TODO write these out on paper and test]
-[n -> x1 -> ... -> xn -> f -> f x1 ... xn]
-nRev = nFuncMaker next -> x -> f -> next f x
+{basics}
+{nat}
+{tup}
+{_util}
+nFuncMaker _= f -> nRev2 f id
 [n -> f -> g -> x1 -> ... -> xn -> f (g x1 ... xn)]
-nComp = nFuncMaker next -> f -> g -> x -> next f (g x)
+nComp = nFuncMaker next -> f -> g -> x -> next f `id g x
 [n -> x -> y1 -> ... -> yn -> x]
 nConst = nFuncMaker next -> x -> y -> next x
 [n -> x1 -> ... -> xn -> y -> y]
-[TODO nIgnore]
+nIgnore = nFuncMaker next -> x -> next
+[n -> x1 -> ... -> xn -> f -> f x1 ... xn]
+nRev = sndTup `comp nRev2 (rev m -> next -> succNat m `tup x -> rev x `(nComp m) next) (id [= 1] `tup id)
