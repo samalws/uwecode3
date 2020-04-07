@@ -1,7 +1,7 @@
 {basics}
 {bool}
-{_util}
 0 _= ignore
+nComp2 _= x -> y -> f -> f x y
 succNat = n -> f -> f `comp n f
 addNat = rev succNat
 mulNat = a -> b -> f -> a `id b f
