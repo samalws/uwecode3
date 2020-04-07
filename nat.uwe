@@ -1,18 +1,17 @@
 {basics}
 {bool}
-{nFunc}
+{_util}
 0 _= ignore
-2 _= f -> x -> f (f x)
 succNat = n -> f -> f `comp n f
 addNat = rev succNat
 mulNat = a -> b -> f -> a `id b f
 expNat = rev
-Nat->ScottNat = nRev 2 (r -> const `comp rev r) 0
-ScottNat->Nat = fix self -> nRev 2 (r -> f -> f `comp self r f) 0
+Nat->ScottNat = nRev2 (r -> const `comp rev r) 0
+ScottNat->Nat = fix self -> nRev2 (r -> f -> f `comp self r f) 0
 shiftInc _= t -> sndTup t `tup succNat `id sndTup t
-decNat = ScottNat->Nat `comp nRev 2 id 0 `comp Nat->ScottNat
+decNat = ScottNat->Nat `comp nRev2 id 0 `comp Nat->ScottNat
 minusNat = rev decNat
-isZeroNat = nRev 2 (const false) true
+isZeroNat = nRev2 (const false) true
 divNat = a -> b -> (a `tup 0) `rev fix self -> t -> fstTup t `rev subbedA -> sndTup t `rev divResult -> isZeroNat divResult divResult `id self `id minusNat subbedA b `tup succNat divResult
 modNat = a -> b -> a `rev fix self -> subbedA -> minusNat subbedA b `rev subbedA2 -> isZeroNat subbedA2 subbedA `id self subbedA2
 leqNat = a -> b -> isZeroNat `id minusNat a b
