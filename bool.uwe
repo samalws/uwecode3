@@ -1,13 +1,12 @@
 {basics}
-{nFuncs}
-2 _= f -> x -> f (f x)
+nComp2 _= x -> y -> f -> f x y
 true = const
 false = ignore
-notBool = nRev 2 false true
+notBool = nRev2 false true
 andBool = a -> b -> a b false
 orBool = a -> b -> a true b
 xorBool = a -> b -> a (not b) b
-nandBool = nComp 2 notBool andBool
-norBool = nComp 2 notBool orBool
-xnorBool = nComp 2 notBool xorBool
+nandBool = nComp2 notBool andBool
+norBool = nComp2 notBool orBool
+xnorBool = nComp2 notBool xorBool
 eqBool = xnorBool
