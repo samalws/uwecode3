@@ -1,9 +1,7 @@
-{nFuncs}
 id = a -> a
-1 _= id
-rev = nRev 1
-comp = nComp 1
-const = nConst 1
-ignore = nIgnore 1
+rev = x -> y -> y x
+comp = f -> g -> x -> f (g x)
+const = x -> y -> x
+ignore = x -> y -> y
 selfCall = a -> a a
 fix = a -> selfCall b -> a `id selfCall b
