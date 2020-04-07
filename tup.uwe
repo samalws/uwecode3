@@ -1,8 +1,7 @@
 {basics}
-{nFuncs}
-2 _= f -> x -> f (f x)
-tup = nRev 2
+{_util}
+tup = nRev2
 fstTup = rev const
 sndTup = rev ignore
-getLastTup = nRev 2 sndTup
+getLastTup = nRev2 sndTup
 getTup = fstTup `comp getLastTup
