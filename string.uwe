@@ -2,7 +2,6 @@
 {bool}
 {list}
 {nFunc}
-2 _= f -> x -> f (f x)
 [char: list of 8 bools]
 eqChar = eqList eqBool
 [string: list of chars]
