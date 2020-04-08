@@ -3,8 +3,6 @@
 {either}
 {nat}
 {nFuncs}
-0 _= ignore
-2 _= f -> x -> f (f x)
 [List t: (t -> a -> a) -> a -> a]
 emptyList = ignore
 consList = h -> r -> f -> g -> f h `id f r g
