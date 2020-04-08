@@ -4,9 +4,6 @@
 {list}
 {string}
 {nFuncs}
-0 _= ignore
-2 _= f -> x -> f (f x)
-10 _= addNat 2 `id mulNat 2 `id mulNat 2 2
 [parser a: string -> either (nat,string)(error char number,error msg) (a,string)(thing parsed, remaining after done parsing)] [TODO WHAT ABOUT EOF]
 [TODO what the hell are the next 2 lines]
 bindParser = p -> f -> s -> p s `bindEither rev r -> s2 -> f r s2 (rev charNum -> errMsg -> left `id (charNum `addNat lenList s `minusNat lenList s2) `tup errMsg) right
