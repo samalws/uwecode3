@@ -1,6 +1,7 @@
 {basics}
 {maybe}
 {list}
+{nFuncs}
 [dict a b = a -> eqA -> maybe b]
 emptyDict = const `id const none
 getDict = id
