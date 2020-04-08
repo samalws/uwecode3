@@ -2,9 +2,6 @@
 {io}
 {nat}
 {nFuncs}
-0 _= ignore
-2 _= f -> x -> f (f x)
-4 _= f -> x -> f (f (f (f x)))
 [ast = lambda ast | var nat | called ast ast | str string]
 [TODO varAST]
 lambda = x      -> a -> b -> c -> d -> a x
