@@ -1,5 +1,5 @@
 {basics}
-nComp2 _= x -> y -> f -> f x y
+nRev2 _= x -> y -> f -> f x y
 tup = nRev2
 fstTup = rev const
 sndTup = rev ignore
