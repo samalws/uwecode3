@@ -6,4 +6,3 @@
 eqChar = eqList eqBool
 [string: list of chars]
 eqString = eqList eqChar
-String->Char = (nRev 2 id id) `comp headList
