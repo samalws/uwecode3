@@ -1,5 +1,6 @@
 {basics}
 {tup}
+{bool}
 {either}
 {nat}
 {nFuncs}
@@ -12,6 +13,7 @@ singleList = rev emptyList `comp consList
 mapList = f -> nRev 2 (consList `comp f) emptyList
 filterList = f -> nRev 2 (h -> r -> f h (h `consList r) r) emptyList
 lenList = nRev 2 succNat 0
+listIsEmpty = nRev 2 (const true) false
 headList = nRev 2 (const `comp just) none
 tailList = ScottList->List `comp nRev 2 (just `(nComp 2) ignore) none `comp List->ScottList
 getList = fix self -> n -> l -> isZeroNat n (headList l) `id self (decNat n) (tailList l)
