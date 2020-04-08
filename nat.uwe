@@ -2,7 +2,7 @@
 {bool}
 nRev2 _= x -> y -> f -> f x y
 succNat = n -> f -> f `comp n f
-addNat = rev succNat
+addNat = n -> m -> f -> n f `comp m f
 mulNat = a -> b -> f -> a `id b f
 expNat = rev
 Nat->ScottNat = nRev2 (r -> const `comp rev r) 0
