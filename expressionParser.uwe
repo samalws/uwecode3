@@ -7,18 +7,17 @@
 {varAst}
 {string}
 wordParser = (many1Parser `id "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*_+-=|;:'<>?,./" (choiceParser `comp charParser) failParser) `bindParser s -> eqString s "=" (const `id 0 `tup "Unexpected \"=\"") `id emptyParser s
-commentParser = charParser (String->Char "[") `appendParser manyParser (nonCharParser "]") `appendParser charParser (String->Char "]")
+commentParser = charParser '[' `appendParser manyParser (nonCharParser ']') `appendParser charParser ']'
 whitespaceParser = many1Parser (spaceParser `appendParser commentParser) `appendParser spaceParser
 spaceSeparatedParser = p1 -> p2 -> p1 `appendParser whitespaceParser `appendIgnoringLParser p2
 funcParser = expParser -> wordParser `spaceSeparatedParser stringParser "->" `spaceSeparatedParser expParser
-infixCallParser = expParserBig -> expParserSmall -> (expParserSmall `spaceSeparatedParser (charParser (String->Char "`") `appendParser wordParser) `spaceSeparatedParser expParserBig) `mapParser rev x -> rev m -> y -> m _ -> f -> called f x `called y
+infixCallParser = expParserBig -> expParserSmall -> (expParserSmall `spaceSeparatedParser (charParser '`' `appendParser wordParser) `spaceSeparatedParser expParserBig) `mapParser rev x -> rev m -> y -> m _ -> f -> called f x `called y
 varParser = wordParser `mapParser namedVar
 calledParser = expParser -> (expParser `spaceSeparatedParser expParser) `mapParser rev called
-parenParser = expParser -> charParser (String->Char "(") `appendIgnoringLParser expParser `appendIgnoringRParser charParser (String->Char ")")) [TODO maybe space at beginning and end]
-stringParserNoBackslashCase _= stringParser -> charSatisfiesParser (c -> (charEq c `id Char->String "\\") `norBool (charEq c `id Char->String "\"")) `bindParser c -> (stringParser `mapParser consList c) `choiceParser emptyParser `id singletonList c
+parenParser = expParser -> charParser '(' `appendIgnoringLParser expParser `appendIgnoringRParser charParser ')') [TODO maybe space at beginning and end]
+stringParserNoBackslashCase _= stringParser -> charSatisfiesParser (c -> charEq c '\\' `norBool charEq c '\"') `bindParser c -> (stringParser `mapParser consList c) `choiceParser emptyParser `id singletonList c
 stringParserBackslashed _= stringParser -> (expectingNonEndParser c -> r -> right c `tup r) `bindParser c -> stringParser `mapParser consList c
-stringParserBackslash _= stringParser -> charParser (Char->String "\\") `bindParser stringParserBackslashed stringParser
+stringParserBackslash _= stringParser -> charParser '\\' `bindParser stringParserBackslashed stringParser
 stringParserMainChunk _= (fix self -> stringParserNoBackslashCase self `choiceParser stringParserBackslash self) `mapParser str
-quoteParser _= charParser (String->Char "\"")
-stringParser = expParser -> quoteParser `appendIgnoringLParser stringParserMainChunk `appendIgnoringRParser quoteParser
+stringParser = expParser -> charParser '\"' `appendIgnoringLParser stringParserMainChunk `appendIgnoringRParser charParser '\"'
 standardExpressionParser = VarAst->Ast `mapParser fix selfBig -> (selfSmall -> funcParser selfBig `choiceParser infixCallParser selfBig selfSmall `choiceParser selfSmall) `id varParser `choiceParser calledParser selfBig `choiceParser parenParser selfBig
