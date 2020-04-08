@@ -5,7 +5,6 @@
 {enclosedParser}
 {ast}
 {varAst}
-{string}
 wordParser = (many1Parser `id "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*_+-=|;:'<>?,./" (choiceParser `comp charParser) failParser) `bindParser s -> eqString s "=" (const `id 0 `tup "Unexpected \"=\"") `id emptyParser s
 commentParser = charParser '[' `appendParser manyParser (nonCharParser ']') `appendParser charParser ']'
 whitespaceParser = many1Parser (spaceParser `appendParser commentParser) `appendParser spaceParser
