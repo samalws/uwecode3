@@ -1,7 +1,7 @@
 {basics}
 {nat}
 {tup}
-nRev 2 _= x -> y -> f -> f x y
+nRev2 _= x -> y -> f -> f x y
 nFuncMaker _= f -> nRev2 f id
 [n -> f -> g -> x1 -> ... -> xn -> f (g x1 ... xn)]
 nComp = nFuncMaker next -> f -> g -> x -> next f `id g x
