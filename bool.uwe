@@ -1,5 +1,6 @@
 {basics}
-nComp2 _= x -> y -> f -> f x y
+nRev2 _= x -> y -> f -> f x y
+nComp2 _= f -> g -> x -> y -> f (g x y)
 true = const
 false = ignore
 notBool = nRev2 false true
