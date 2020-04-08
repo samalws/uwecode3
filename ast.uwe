@@ -2,15 +2,17 @@
 {io}
 {nat}
 {nFuncs}
-[ast = lambda ast | var nat | called ast ast | str string]
+[ast = lambda ast | var nat | called ast ast | str string | num nat | calledNum nat ast]
 [TODO varAST]
-lambda = x      -> a -> b -> c -> d -> a x
-var    = n      -> a -> b -> c -> d -> b n
-called = x -> y -> a -> b -> c -> d -> c x y
-str    = s      -> a -> b -> c -> d -> s d
-replaceAst = replacement -> fix self -> n -> nRev 4 (x -> lambda `id self (succNat n) x) (n2 -> eqNat n2 n replacement `id var n2) (x -> y -> called (self n x) (self n y)) str
-decVarsAst = fix self -> nRev 4 (lambda `comp self) (var `comp decNat) (x -> y -> called (self x) (self y)) str
-callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b)
-simplifyAst = nRev 4 lambda var callAst str
-simplifyFullyAst = fix self -> nRev 4 lambda var (self `(nComp 2) callAst) str
-Ast->F = id `rev fix self -> context -> nRev 4 (a -> x -> self (x `tup context) a) (n -> getTup n context) (x -> y -> (self context x) (self context y)) id
+lambda    = x      -> a -> b -> c -> d -> e -> f -> a x
+var       = n      -> a -> b -> c -> d -> e -> f -> b n
+called    = x -> y -> a -> b -> c -> d -> e -> f -> c x y
+str       = s      -> a -> b -> c -> d -> e -> f -> d s
+num       = n      -> a -> b -> c -> d -> e -> f -> e n
+calledNum = n -> x -> a -> b -> c -> d -> e -> f -> f n x
+replaceAst = replacement -> fix self -> n -> nRev 6 (x -> lambda `id self (succNat n) x) (n2 -> eqNat n2 n replacement `id var n2) (x -> y -> called (self n x) (self n y)) str num (n -> x -> calledNum n `id self x)
+decVarsAst = fix self -> nRev 6 (lambda `comp self) (var `comp decNat) (x -> y -> called (self x) (self y)) str num (n -> x -> calledNum n `id self x)
+callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b) (n -> calledNum n b) (n -> x -> eqZero n b `id called (calledNum (decNat n) x) `id x b)
+simplifyAst = nRev 6 lambda var callAst str num calledNum
+simplifyFullyAst = fix self -> nRev 6 lambda var (self `(nComp 2) callAst) str num calledNum
+Ast->F = id `rev fix self -> context -> nRev 6 (a -> x -> self (x `tup context) a) (n -> getTup n context) (x -> y -> (self context x) (self context y)) id id id
