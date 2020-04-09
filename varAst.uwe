@@ -4,7 +4,7 @@
 {ast}
 {nFuncs}
 [varAst is identical to ast except var -> namedVar and lambda -> namedLambda]
-namedLambda = x -> n -> a -> b -> c -> d -> e -> f -> a x n
+namedLambda = x -> n -> a -> b -> c -> d -> e -> f -> g -> a x n
 namedVar = var
 [TODO maybe stuff]
-VarAst->Ast = emptyDict `rev fix self -> ctx -> nRev 6 (x -> n -> lambda `id self (mapDict succNat `id assignDict ctx n 0) x) (n -> getDict ctx n var id[TODO]) (x -> y -> self ctx x `called self ctx y) str num (n -> x -> calledNum n `id self ctx x)
+VarAst->Ast = emptyDict `rev fix self -> ctx -> nRev 7 (x -> n -> lambda `id self (mapDict succNat `id assignDict ctx n 0) x) (n -> getDict ctx n var id[TODO]) (x -> y -> self ctx x `called self ctx y) str chr num (n -> x -> calledNum n `id self ctx x)
