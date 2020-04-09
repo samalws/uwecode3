@@ -4,5 +4,6 @@
 {nFunc}
 [char: list of 8 bools]
 eqChar = eqList eqBool
+singleQuoteChar = headList "'" id id
 [string: list of chars]
 eqString = eqList eqChar
