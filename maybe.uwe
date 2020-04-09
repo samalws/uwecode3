@@ -1,8 +1,12 @@
+[maybe a = (a -> b) -> b -> b]
 {basics}
 {bool}
 {nFuncs}
-just = a -> f -> g -> f a
+just = x -> f -> g -> f x
 none = ignore
 isJust = nRev 2 (const true) false
-bindMaybe = a -> b -> a b none
-eqMaybe = eq -> a -> b -> a (b eq false) false
+[maybe a -> (a -> maybe b) -> maybe b]
+[as in haskell, maybes form a monad with bindMaybe and none]
+bindMaybe = x -> y -> x y none
+[(a -> a -> bool) -> maybe a -> maybe a -> bool]
+eqMaybe = eq -> x -> y -> x (v -> y (eq v) false) (y (const false) true)
