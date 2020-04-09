@@ -11,6 +11,7 @@ List->ScottList = nRev 2 (h -> r -> f -> const `id f h r) emptyList
 ScottList->List = fix self -> nRev 2 (h -> r -> h `consList self r) emptyList
 singleList = rev emptyList `comp consList
 mapList = f -> nRev 2 (consList `comp f) emptyList
+replaceList = f -> x -> mapList y -> f y x y
 filterList = f -> nRev 2 (h -> r -> f h (h `consList r) r) emptyList
 lenList = nRev 2 succNat 0
 isEmptyList = nRev 2 (const true) false
