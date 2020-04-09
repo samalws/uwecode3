@@ -1,9 +1,8 @@
+[ast = lambda ast | var nat | called ast ast | str string | chr char | num nat | calledNum nat ast]
 {basics}
 {io}
 {nat}
 {nFuncs}
-[ast = lambda ast | var nat | called ast ast | str string | chr char | num nat | calledNum nat ast]
-[TODO varAST]
 lambda    = x      -> a -> b -> c -> d -> e -> f -> g -> a x
 var       = n      -> a -> b -> c -> d -> e -> f -> g -> b n
 called    = x -> y -> a -> b -> c -> d -> e -> f -> g -> c x y
@@ -11,9 +10,13 @@ str       = s      -> a -> b -> c -> d -> e -> f -> g -> d s
 chr       = s      -> a -> b -> c -> d -> e -> f -> g -> e s
 num       = n      -> a -> b -> c -> d -> e -> f -> g -> f n
 calledNum = n -> x -> a -> b -> c -> d -> e -> f -> g -> g n x
+Bool->Ast = nRev 2 (lambda `id lambda `id var 1) (num 0)
+List->Ast = f -> nRev 2 (h -> r -> lambda `id lambda `id (var 1 `called f h) `called (r `called var 1) `called var 0) (num 0)
+chrAsLambda _= List->Ast Bool->Ast
+strAsLambda _= List->Ast chr
 replaceAst = replacement -> fix self -> n -> nRev 7 (x -> lambda `id self (succNat n) x) (n2 -> eqNat n2 n replacement `id var n2) (x -> y -> called (self n x) (self n y)) str chr num (n -> x -> calledNum n `id self x)
 decVarsAst = fix self -> nRev 7 (lambda `comp self) (var `comp decNat) (x -> y -> called (self x) (self y)) str chr num (n -> x -> calledNum n `id self x)
-callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b) (c -> called (str c) b) (n -> calledNum n b) (n -> x -> eqZero n b `id called (calledNum (decNat n) x) `id x b) [TODO do the chr and str thing]
+callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (strAsLambda s) b) (c -> called (chrAsLambda c) b) (n -> calledNum n b) (n -> x -> eqZero n b `id called (calledNum (decNat n) x) `id x b)
 simplifyAst = nRev 7 lambda var callAst str chr num calledNum
 simplifyFullyAst = fix self -> nRev 7 lambda var (nComp 2 self callAst) str chr num calledNum
 Ast->F = id `rev fix self -> context -> nRev 7 (a -> x -> self (x `tup context) a) (n -> getTup n context) (x -> y -> (self context x) (self context y)) id id id id
