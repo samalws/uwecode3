@@ -4,6 +4,7 @@
 {nFunc}
 [char: list of 8 bools]
 eqChar = eqList eqBool
+[the id id part is a way of doing fromJust, it's safe in this case because the maybe is always a just and never a none; the second id is never used]
 singleQuoteChar = headList "'" id id
 [string: list of chars]
 eqString = eqList eqChar
