@@ -1,12 +1,15 @@
+[bool = a -> a -> a]
 {basics}
 nRev2 _= x -> y -> f -> f x y
-nComp2 _= f -> g -> x -> y -> f (g x y)
+nComp2 _= f -> g -> x -> y -> f `id g x y
 true = const
 false = ignore
+[note that this translates to an if statement: b x y = if b then x else y]
+[boolean algebra operations:]
 notBool = nRev2 false true
 andBool = a -> b -> a b false
 orBool = a -> b -> a true b
-xorBool = a -> b -> a (not b) b
+xorBool = a -> b -> a (notBool b) b
 nandBool = nComp2 notBool andBool
 norBool = nComp2 notBool orBool
 xnorBool = nComp2 notBool xorBool
