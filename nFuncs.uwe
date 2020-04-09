@@ -10,4 +10,4 @@ nConst = nFuncMaker next -> x -> y -> next x
 [n -> x1 -> ... -> xn -> y -> y]
 nIgnore = nFuncMaker const
 [n -> x1 -> ... -> xn -> f -> f x1 ... xn]
-nRev = sndTup `comp nRev2 (rev m -> next -> succNat m `tup x -> rev x `(nComp m) next) (id [= 1] `tup id)
+nRev = sndTup `comp nRev2 (rev m -> next -> succNat m `tup x -> nComp m (rev x) next) (id [= 1] `tup id)
