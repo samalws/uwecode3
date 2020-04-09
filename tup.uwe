@@ -1,7 +1,10 @@
+[tup a b = (a -> b -> c) -> c]
 {basics}
 nRev2 _= x -> y -> f -> f x y
 tup = nRev2
 fstTup = rev const
 sndTup = rev ignore
+[n: nat -> (t0 `tup ... `tup tn) -> tn]
 getLastTup = nRev2 sndTup
+[n: nat -> (t0 `tup ... `tup tn `tup ...) -> tn]
 getTup = fstTup `comp getLastTup
