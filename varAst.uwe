@@ -6,5 +6,4 @@
 [varAst is identical to ast except var -> namedVar and lambda -> namedLambda]
 namedLambda = x -> n -> a -> b -> c -> d -> e -> f -> g -> a x n
 namedVar = var
-[TODO maybe stuff]
-VarAst->Ast = emptyDict `rev fix self -> ctx -> nRev 7 (x -> n -> lambda `id self (mapDict succNat `id assignDict ctx n 0) x) (n -> getDict ctx n var id[TODO]) (x -> y -> self ctx x `called self ctx y) str chr num (n -> x -> calledNum n `id self ctx x)
+VarAst->Ast = emptyDict `rev fix self -> ctx -> nRev 7 (x -> n -> self (mapDict succNat `id assignDict ctx n 0) x `bindMaybe lambda) (n -> getDict ctx n var id) (x -> y -> self ctx x `bindMaybe x2 -> self ctx y `bindMaybe called x2) (just `comp str) (just `comp chr) (just `comp num) (n -> x -> self ctx x `bindMaybe calledNum n)
