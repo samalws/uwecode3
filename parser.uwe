@@ -20,6 +20,7 @@ failParser = const `id left `id 0 `tup ""
 emptyStringParseErr = left `id 0 `tup "Unexpected end of parse"
 charSatisfiesParser = f -> e -> nRev 2 (h -> r -> f h (right `id c `tup ScottList->List r) (left `id 1 `tup e)) emptyStringParseErr `comp List->ScottList
 charParser = c -> charSatisfiesParser (eqChar c) ("Expected character " `concatList singleList c)
+nonCharParser = c -> charSatisfiesParser (notBool `comp eqChar c) ("Didn't expect character " `concatList singleList c)
 strParser = nRev 2 (appendWithConsListParser `comp charParser) emptyParser
 manyParser = p -> fix self -> optionalParser emptyList `id p `appendWithConsListParser self
 many1Parser = p -> p `appendWithConsListParser manyParser p
