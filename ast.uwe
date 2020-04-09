@@ -14,5 +14,5 @@ replaceAst = replacement -> fix self -> n -> nRev 6 (x -> lambda `id self (succN
 decVarsAst = fix self -> nRev 6 (lambda `comp self) (var `comp decNat) (x -> y -> called (self x) (self y)) str num (n -> x -> calledNum n `id self x)
 callAst = a -> b -> a (replaceAst b 0) (n -> called (var n) b) (x -> y -> called (called x y) b) (s -> called (str s) b) (n -> calledNum n b) (n -> x -> eqZero n b `id called (calledNum (decNat n) x) `id x b)
 simplifyAst = nRev 6 lambda var callAst str num calledNum
-simplifyFullyAst = fix self -> nRev 6 lambda var (self `(nComp 2) callAst) str num calledNum
+simplifyFullyAst = fix self -> nRev 6 lambda var (nComp 2 self callAst) str num calledNum
 Ast->F = id `rev fix self -> context -> nRev 6 (a -> x -> self (x `tup context) a) (n -> getTup n context) (x -> y -> (self context x) (self context y)) id id id
