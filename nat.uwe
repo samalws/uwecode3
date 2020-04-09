@@ -1,21 +1,39 @@
+[nat = (a -> a) -> a -> a]
+[number literals automatically evaluate to these]
+[in binary operations I refer to the first number as n and the second as m, I know this isn't alphabetical but shh]
 {basics}
 {bool}
 nRev2 _= x -> y -> f -> f x y
+nComp2 _= f -> g -> x -> y -> f `id g x y
 succNat = n -> f -> f `comp n f
+[could be written more succinctly as rev succNat but that's O(n) and this is O(1)]
 addNat = n -> m -> f -> n f `comp m f
-mulNat = a -> b -> f -> a `id b f
+mulNat = n -> m -> f -> n `id m f
+[witchcraft, I have no idea why this works]
 expNat = rev
-Nat->ScottNat = nRev2 (r -> const `comp rev r) 0
-ScottNat->Nat = fix self -> nRev2 (r -> f -> f `comp self r f) 0
-shiftInc _= t -> sndTup t `tup succNat `id sndTup t
+[scottNat = (scottNat -> a) -> a -> a]
+succScottNat  = n -> f -> x -> f n
+[0 in scottNat is still 0]
+[both of these conversions take O(n) time which is kinda awkward]
+Nat->ScottNat = nRev2 scottSucc 0
+ScottNat->Nat = fix self -> nRev2 (succNat `comp self) 0
+[scottNats are waaaaay easier to decrement than nats]
+[decrementing a nat is O(n) no matter what anyway so this doesn't increase time complexity]
 decNat = ScottNat->Nat `comp nRev2 id 0 `comp Nat->ScottNat
+[there's gotta be a better way of doing this, this is O(n*m)]
+[when n <= m, n-m is 0, since negatives don't exist]
 minusNat = rev decNat
 isZeroNat = nRev2 (const false) true
-divNat = a -> b -> (a `tup 0) `rev fix self -> t -> fstTup t `rev subbedA -> sndTup t `rev divResult -> isZeroNat divResult divResult `id self `id minusNat subbedA b `tup succNat divResult
-modNat = a -> b -> a `rev fix self -> subbedA -> minusNat subbedA b `rev subbedA2 -> isZeroNat subbedA2 subbedA `id self subbedA2
-leqNat = a -> b -> isZeroNat `id minusNat a b
-geqNat = a -> b -> leqNat b a
-eqNat = a -> b -> leqNat a b `andBool geqNat a b
-ltNat = a -> b -> leqNat a b `andBool notBool `id eqNat a b
-gtNat = a -> b -> geqNat a b `andBool notBool `id eqNat a b
-chooseGrNat = a -> b -> aGr -> bGr -> eq -> eqNat a b eq `id leqNat a b bGr aGr
+leqNat = isZeroNat `nComp2 minusNat
+geqNat = n -> m -> leqNat m n
+[if a <= b and a >= b then a = b]
+eqNat = n -> m -> leqNat n m `andBool geqNat n m
+[if a <= b and not a >= b then a < b]
+ltNat = n -> m -> leqNat n m `andBool notBool `id geqNat n m
+[if a >= b and not a <= b then a > b]
+gtNat = n -> m -> geqNat n m `andBool notBool `id leqNat n m
+[implemented this weirdly, mostly because eqNat takes around double the time of >= and <=]
+chooseGrNat = nGr -> mGr -> eq -> n -> m -> leqNat n m (geqNat n m eq mGr) nGr
+[TODO (these aren't used in the self parser so I didn't check them):
+divNat = n -> m -> (n `tup 0) `rev fix self -> t -> fstTup t `rev subbedN -> sndTup t `rev divResult -> isZeroNat divResult divResult `id self `id minusNat subbedN b `tup succNat divResult
+modNat = a -> b -> a `rev fix self -> subbedA -> minusNat subbedA b `rev subbedA2 -> isZeroNat subbedA2 subbedA `id self subbedA2]
