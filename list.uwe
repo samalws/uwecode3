@@ -1,24 +1,38 @@
+[list a = (a -> b -> b) -> b -> b]
 {basics}
 {tup}
 {bool}
 {either}
 {nat}
 {nFuncs}
-[List t: (t -> a -> a) -> a -> a]
 emptyList = ignore
-consList = h -> r -> f -> g -> f h `id f r g
-List->ScottList = nRev 2 (h -> r -> f -> const `id f h r) emptyList
-ScottList->List = fix self -> nRev 2 (h -> r -> h `consList self r) emptyList
-singleList = rev emptyList `comp consList
+consList = h -> r -> f -> f h `comp r f
+[notably works the same way as addNat :)]
+concatList = l1 -> l2 -> f -> l1 f `comp l2 f
+singleList = x -> consList x emptyList
+[(a -> b) -> list a -> list b]
 mapList = f -> nRev 2 (consList `comp f) emptyList
+[eq: (a -> bool) -> a -> list a -> list a]
+[replace every element in the list where f(element) == true with x]
 replaceList = f -> x -> mapList y -> f y x y
+[(a -> bool) -> list a -> list a]
+[only keep elements where f(element) == true]
 filterList = f -> nRev 2 (h -> r -> f h (h `consList r) r) emptyList
-lenList = nRev 2 succNat 0
 isEmptyList = nRev 2 (const true) false
+lenList = nRev 2 succNat 0
 headList = nRev 2 (const `comp just) none
+[scottList a = (a -> scottList a -> b) -> b -> b]
+consScottList = h -> r -> f -> g -> f h r
+[emptyList is the same in a scottList]
+[List->ScottList and ScottList->List are both O(n)]
+List->ScottList = nRev 2 consScottList emptyList
+ScottList->List = fix self -> nRev 2 (h -> r -> h `consList self r) emptyList
+[O(n) to get the tail is kinda sad but can't be avoided]
 tailList = ScottList->List `comp nRev 2 (nComp 2 just ignore) none `comp List->ScottList
-getList = fix self -> n -> l -> isZeroNat n (headList l) `id self (decNat n) (tailList l)
-concatList = rev consList
-mergeList = f -> a -> b -> (fix self -> a -> b -> a (ha -> ra -> b (hb -> rb -> f ha hb `consList self ra rb) emptyList) emptyList) (List->ScottList a) (List->ScottList b)
-eqList = f -> nRev 2 andBool true `(nComp 2) mergeFolded f
+[TODO make this better than O(n^2)]
+getList = fix self -> n -> l -> isZeroNat n (headList l) `id tailList l `bindMaybe self `id decNat n
+[(a -> b -> c) -> list a -> list b -> list c]
+mergeList = f -> l1 -> l2 -> (fix self -> sl1 -> sl2 -> sl1 (h1 -> r1 -> sl2 (h2 -> r2 -> f h1 h2 `consList self r1 r2) emptyList) emptyList) (List->ScottList l1) (List->ScottList l2)
+[eq: (a -> a -> bool) -> list a -> list a -> bool]
+eqList = eq -> l -> nComp 2 (nRev 2 andBool true) (mergeList eq)
 [TODO reverse, sort]
