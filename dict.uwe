@@ -5,4 +5,4 @@
 [dict a b = a -> eqA -> maybe b]
 emptyDict = const `id const none
 getDict = id
-assignDict = d -> a -> b -> (aRequested -> eqA -> eqA a aRequested (just b) none) `(nComp 2) d
+assignDict = d -> a -> b -> nComp 2 (aRequested -> eqA -> eqA a aRequested (just b) none) d
