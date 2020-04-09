@@ -25,4 +25,5 @@ manyParser = p -> fix self -> optionalParser emptyList `id p `appendWithConsList
 many1Parser = p -> p `appendWithConsListParser manyParser p
 digitParser = sndTup `id "0123456789" (digit -> rev n -> currentParser -> succNat n `tup currentParser `choiceParser const n `mapParser charParser digit) (0 `tup failParser)
 natParser = (sndTup `comp nRev 2 (digit -> rev mult -> n -> mulNat 10 mult `tup n `addNat mult `mulNat digit) (1 `tup 0)) `mapParser many1Parser digitParser 
-whitespaceParser = many1Parser `id mapList charParser " \t\n" choiceParser failParser
+whitespaceParser = many1Parser `id mapList charParser "   
+" choiceParser failParser
