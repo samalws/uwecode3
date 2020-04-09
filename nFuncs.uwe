@@ -1,13 +1,17 @@
+[functions which work for variable numbers of arguments]
+[one of the reasons pure untyped lambda calculus is fun]
 {basics}
 {nat}
 {tup}
 nRev2 _= x -> y -> f -> f x y
 nFuncMaker _= f -> nRev2 f id
-[n -> f -> g -> x1 -> ... -> xn -> f (g x1 ... xn)]
+[n: nat -> f -> g -> x1 -> ... -> xn -> f (g x1 ... xn)]
 nComp = nFuncMaker next -> f -> g -> x -> next f `id g x
-[n -> x -> y1 -> ... -> yn -> x]
+[n: nat -> x -> y1 -> ... -> yn -> x]
 nConst = nFuncMaker next -> x -> y -> next x
-[n -> x1 -> ... -> xn -> y -> y]
+[n: nat -> x1 -> ... -> xn -> y -> y]
 nIgnore = nFuncMaker const
-[n -> x1 -> ... -> xn -> f -> f x1 ... xn]
-nRev = sndTup `comp nRev2 (rev m -> next -> succNat m `tup x -> nComp m (rev x) next) (id [= 1] `tup id)
+[n: nat -> x1 -> ... -> xn -> f -> f x1 ... xn]
+[note that this is the general way to create functions on church or scott encoded datatypes]
+nRev = sndTup `comp nRev2 (rev n -> next -> succNat n `tup x -> nComp n next `id rev x) (1 `tup id)
+[TODO general church and scott constructor maker, general church->scott and scott->church]
