@@ -17,4 +17,5 @@ parenParser = expParser -> charParser '(' `appendIgnoringLParser expParser `appe
 strParser = mapParser str `id charParser '"' `appendIgnoringLParser manyParser (nonCharParser '"') `appendIgnoringRParser charParser '"'
 chrParser = mapParser chr `id charParser singleQuoteChar `appendIgnoringLParser manyParser (nonCharParser singleQuoteChar) `appendIgnoringRParser charParser singleQuoteChar
 numParser = mapParser num natParser
-standardExpressionParser = (bindEither (tup 2) `comp VarAst->Ast) `mapFailableParser fix selfBig -> (selfSmall -> funcParser selfBig `choiceParser infixCallParser selfBig selfSmall `choiceParser selfSmall) `id strParser `choiceParser chrParser `choiceParser numParser `choiceParser varParser `choiceParser calledParser selfBig `choiceParser parenParser selfBig
+[standardExpressionParser: parser varAst]
+standardExpressionParser = fix selfBig -> (selfSmall -> funcParser selfBig `choiceParser infixCallParser selfBig selfSmall `choiceParser selfSmall) `id strParser `choiceParser chrParser `choiceParser numParser `choiceParser varParser `choiceParser calledParser selfBig `choiceParser parenParser selfBig
